@@ -1,5 +1,6 @@
 env
 results
+temp
 *.xps
 *.csv
 **/__pycache__
