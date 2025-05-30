@@ -1,29 +1,40 @@
-from utils.LaTeX import LaTeXFigure
+from utils.LaTeX.LaTeXFigure import LaTeXFigure
 
 class LaTeXPlot:
     def __init__(self):
-        self.figure = LaTeXFigure()
+        self.fig = LaTeXFigure()
 
-    def fig(self, num : int = None):
+    def figure(self, num : int | str = None):
         if num is None:
-            self.figure = LaTeXFigure( max( LaTeXFigure.FIGURES.keys() ) + 1 )
+            self.fig = LaTeXFigure( max( [ key if isinstance( key, int ) else 0 for key in LaTeXFigure.FIGURES.keys() ] ) + 1 )
         else:
-            self.figure = LaTeXFigure( num )
+            self.fig = LaTeXFigure( num )
+        return self.fig
     
     def title( self, title : str = "" ):
-        self.figure.title( title )
+        self.fig.title( title )
 
     def xlabel( self, label : str = "" ):
-        self.figure.xlabel( label )
+        self.fig.xlabel( label )
 
     def ylabel( self, label : str = "" ):
-        self.figure.ylabel( label )
+        self.fig.ylabel( label )
 
     def xlim( self, limits : list[float,float] ):
-        self.figure.xlim( limits )
+        self.fig.xlim( limits )
 
     def ylim( self, limits : list[float,float] ):
-        self.figure.ylim( limits )
+        self.fig.ylim( limits )
 
     def plot( self, x : list[ float ], y : list[ float ], color : str = None ):
-        self.figure.plot( x,y,color )
+        self.fig.plot( x,y,color )
+
+    def fill_between( self, x : list[float], y_p : list[float], y_m : list[float], color : str = None, alpha : float = 1.0 ):
+        self.fig.fill_between( x,y_p,y_m,color,alpha )
+
+    def get_fignums( self ):
+        for n in LaTeXFigure.FIGURES.keys():
+            yield n
+
+    def show( self ):
+        print( "Not implemented yet. :P" )

@@ -1,5 +1,7 @@
 \documentclass{standalone}
 \usepackage{pgfplots}
+\usepackage{lmodern}
+\usepgfplotslibrary{fillbetween}
 \pgfplotsset{compat=1.18}
 \begin{document}
 \begin{tikzpicture}

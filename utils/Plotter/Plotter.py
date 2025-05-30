@@ -1,6 +1,6 @@
 from typing import Callable, Iterable
-from matplotlib import pyplot as plt
 from utils.Processor.DataReader import DataReader
+from utils.Plotter.Backend import plt
 
 class Plotter:
     ENGINEER = "engineer"
@@ -26,5 +26,14 @@ class Plotter:
         
         template( Strain, Stress )
     
+    def figure( self, num : int | str = None ):
+        plt.figure( num )
+
     def show( self ):
         plt.show()
+    
+    def savefigs( self, path : str ):
+        for num in plt.get_fignums():
+            print( "COMPILING: " + path.format(num) )
+            fig = plt.figure( num )
+            fig.savefig( path.format( num ) )

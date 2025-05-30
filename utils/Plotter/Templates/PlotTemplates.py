@@ -1,10 +1,6 @@
-from matplotlib import pyplot as plt
 from utils.Plotter.Limits import Limits
 from statistics import mean, stdev
-
-plt.rcParams.update({
-    "font.family": "Cambria"
-})
+from utils.Plotter.Backend import plt
 
 class IterUtil:
     def __init__(self, var : list[list[float]]):
@@ -40,13 +36,11 @@ class PlotTemplates:
         title : str = "Stress-strain curve",
         labels : list[ str ] = [r"Strain $(\varepsilon)$", r"Stress $(\sigma)$" ],
         limits : Limits = Limits(),
-        create_new_figure : bool = False
     ):
         def plot(
                 Strain : list[ list[ float ] ],
                 Stress : list[ list[ float ] ]
         ):
-            PlotTemplates.Preamble( create_new_figure )
             limits.__init__(limits.xlimit,limits.ylimit)
             for strain, stress in zip( Strain, Stress ):
                 plt.plot( strain, stress )
@@ -59,13 +53,11 @@ class PlotTemplates:
         title : str = "Stress-strain curve",
         labels : list[ str ] = [r"Strain $(\varepsilon)$", r"Stress $(\sigma)$" ],
         limits : Limits = Limits(),
-        create_new_figure : bool = False
     ):
         def plot(
                 Strain : list[ list[ float ] ],
                 Stress : list[ list[ float ] ]
         ):
-            PlotTemplates.Preamble( create_new_figure )
             limits.__init__(limits.xlimit,limits.ylimit)
             
             strain_m = [ mean(r)  for r in IterUtil(Strain) ]
