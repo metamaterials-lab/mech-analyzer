@@ -8,6 +8,7 @@ class Plotter:
 
     def __init__(self, results : DataReader ):
         self.results = results
+        plt.close( "all" )
 
     def plot(
         self,

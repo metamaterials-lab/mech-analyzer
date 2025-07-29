@@ -85,3 +85,6 @@ class LaTeXFigure:
         
     def savefig( self, filename : str ):
         savefig( filename, str(self), self.data )
+
+    def close( self, *args ):
+        LaTeXFigure.FIGURES.clear()

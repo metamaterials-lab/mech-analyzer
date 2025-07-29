@@ -38,3 +38,7 @@ class LaTeXPlot:
 
     def show( self ):
         print( "Not implemented yet. :P" )
+
+    def close( self, *args ):
+        self.fig.close( *args )
+        self.fig = LaTeXFigure()

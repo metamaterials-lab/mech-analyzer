@@ -10,6 +10,7 @@ class Instron( AbstractProcessor ):
     NUM  = 3
     SKIP = 2
     TOL  = 5.0
+    PRELOAD = 0.0
 
     def __init__(self, dirname : str, filename_dimensions : str = "" ):
         super().__init__( dirname, filename_dimensions )
@@ -36,7 +37,7 @@ class Instron( AbstractProcessor ):
         for i, pFile in enumerate( self.pFiles ):
             for line in pFile.readlines():
                 time, disp, force = tuple( Instron.format_line( line, float ) )
-                Instron.read( i, self.data, time, self.unit_map[i]( force ), disp )
+                Instron.read( i, self.data, time, self.unit_map[i]( force - Instron.PRELOAD ), disp )
 
     def __enter__( self ):
         self.pFiles = [ open( os.path.join( self.filename, file ), "r" ) for file in find_sort( self.filename ) ]

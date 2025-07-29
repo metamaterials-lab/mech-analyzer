@@ -35,9 +35,10 @@ def compileCairo( filename : str, tex : str, data : list[str] ):
     p = subprocess.run( [
         "pdftocairo",
         f"-{file_ext}",
-        tmppdf
+        tmppdf,
+        f"{tmppdf}.{file_ext}"
     ], shell=True, capture_output=True )
-    
+
     if p.returncode != 0: raise Exception( p.stderr )
     if file_ext == "jpeg": file_ext = "jpg"
 
