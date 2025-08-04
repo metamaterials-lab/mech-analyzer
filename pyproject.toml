@@ -1,0 +1,5 @@
+[tools.pyright]
+    include = ["utils"]
+    exclude = [".venv"]
+    venvPath = "."
+    venv = ".venv"

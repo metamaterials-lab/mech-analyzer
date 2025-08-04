@@ -8,20 +8,23 @@ class Shimadzu( AbstractProcessor ):
     def __init__(self, filename : str, filename_dimensions : str = "" ):
         super().__init__( filename, filename_dimensions )
 
-    def init_recipient( pFile ):
+    @classmethod
+    def init_recipient( cls, pFile ):
         for _ in range( Shimadzu.SKIP ): l = pFile.readline()
-        return [ { "data" : [], "min_d" : 0.0, "dim" : [] } for _ in range( len( l.split(",") ) // Shimadzu.NUM ) ]
+        return [ { "data" : [], "min_d" : 0.0, "dim" : [], "flag" : False } for _ in range( len( l.split(",") ) // Shimadzu.NUM ) ]
 
-    def read( i, data : list[dict], time, force, disp ):
+    @classmethod
+    def read( cls, i, data : list[dict], time, force, disp ):
         if time:
             time  = float(time)
             force = float(force)
             disp  = float(disp)
             n = i//Shimadzu.NUM
-            if force < Shimadzu.TOL:
+            if force < Shimadzu.TOL and not data[n]["flag"]:
                 data[n]["data"]  = [  ]
                 data[n]["min_d"] = disp
             else:
+                data[n]["flag"] = True
                 data[n]["data"].append( ( time, disp - data[n]["min_d"], force ) )
 
     def read_results( self ):

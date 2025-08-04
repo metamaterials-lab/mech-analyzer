@@ -1,6 +1,7 @@
 env
 data
 temp
+routines
 *.xps
 *.csv
 **/__pycache__

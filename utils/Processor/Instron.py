@@ -1,6 +1,7 @@
+from utils.Processor.AbstractProcessor import AbstractProcessor
+
 import re
 import os
-from utils.Processor.AbstractProcessor import AbstractProcessor
 
 def find_sort( dirname : str ):
     key_match = lambda filename : tuple( map( int, re.findall( "(\d+)", filename ) ) )[-1]
@@ -15,7 +16,8 @@ class Instron( AbstractProcessor ):
     def __init__(self, dirname : str, filename_dimensions : str = "" ):
         super().__init__( dirname, filename_dimensions )
 
-    def init_recipient( pFiles ):
+    @classmethod
+    def init_recipient( cls, pFiles ):
         unit_map = []
         for pFile in pFiles:
             for _ in range( Instron.SKIP ): l = pFile.readline()
@@ -24,13 +26,15 @@ class Instron( AbstractProcessor ):
                 unit_map.append( lambda f: 1000*f )
             else:
                 unit_map.append( lambda f: f )
-        return [ { "data" : [], "min_d" : 0.0, "dim" : [] } for _ in range( len( pFiles ) ) ], unit_map
+        return [ { "data" : [], "min_d" : 0.0, "dim" : [], "flag" : False } for _ in range( len( pFiles ) ) ], unit_map
 
-    def read( i, data : list[dict], time, force, disp ):
-        if force < Instron.TOL:
+    @classmethod
+    def read( cls, i, data : list[dict], time, force, disp ):
+        if force < Instron.TOL and not data[i]["flag"]:
             data[i]["data"]  = [  ]
             data[i]["min_d"] = disp
         else:
+            data[i]["flag"] = True
             data[i]["data"].append( ( time, disp - data[i]["min_d"], force ) )
 
     def read_results( self ):

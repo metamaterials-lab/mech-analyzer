@@ -1,36 +1,28 @@
+from utils.Processor.DataTypes import DataTypes
+
 import os
 import re
 
 class DataReader:
-    def __init__(self, dirname : str):
+    def __init__(self, dirname : str, mode : str = DataTypes.TENSILE ):
         self.dirname = dirname
-        key_match = lambda filename : tuple( map( int, re.findall( "(\d+)", filename ) ) )[-1]
+        key_match = lambda filename : tuple( map( int, re.findall( r"(\d+)", filename ) ) )[-1]
         self.files = [ filename for filename in sorted( next(os.walk( dirname ))[2], key=key_match ) ]
-        self.pFiles = None
-        self.data   = None
+        self.mode = mode
 
-    def format_line( line : str, map = lambda x : x ):
+    @classmethod
+    def format_line( cls, line : str, map = lambda x : x ):
         return [ map( l.replace( "\"", "" ) ) for l in line.split( "," ) ]
 
-    def init_recipient( ):
-        return {
-            "engineer" : {
-                "strain"  : [],
-                "stress"  : []
-            },
-            "real" : {
-                "strain" : [],
-                "stress" : []
-            }
-        }
+    @classmethod
+    def init_recipient( cls, mode : str = DataTypes.TENSILE ):
+        return DataTypes.get_recipient( mode )
     
-    def read_results( pFile, data : dict[str,dict[str,list]]  ):
+    @classmethod
+    def read_results( cls, pFile, data, mode : str = DataTypes.TENSILE ):
         for line in pFile.readlines():
-            es, eS, rs, rS = tuple( DataReader.format_line( line, float ) )
-            data["engineer"]["strain"].append( es )
-            data["engineer"]["stress"].append( eS )
-            data["real"]["strain"].append( rs )
-            data["real"]["stress"].append( rS )
+            datum = tuple( DataReader.format_line( line, float ) )
+            DataTypes.read_results( data, datum, mode )
 
     def setStensil( self, stensil : list[int] ):
         self.stensil = stensil
@@ -44,7 +36,7 @@ class DataReader:
             if i in self.stensil:
                 pFile.seek(0)
                 data = DataReader.init_recipient()
-                DataReader.read_results( pFile, data )    
+                DataReader.read_results( pFile, data, self.mode )
                 yield data
 
     def __exit__( self, *_ ):
