@@ -1,4 +1,4 @@
-from utils.Processor import CS_SHAPES, parse_data
+from utils.Processor import parse_data
 from utils.Processor.Shimadzu import Shimadzu
 from utils.Processor.Instron import Instron
 

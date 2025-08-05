@@ -1,10 +1,10 @@
-from utils.Processor.DataTypes import DataTypes
+from utils.Processor.ExperimentTypes import ExperimentTypes
 
 import os
 import re
 
 class DataReader:
-    def __init__(self, dirname : str, mode : str = DataTypes.TENSILE ):
+    def __init__(self, dirname : str, mode : int = ExperimentTypes.TENSILE ):
         self.dirname = dirname
         key_match = lambda filename : tuple( map( int, re.findall( r"(\d+)", filename ) ) )[-1]
         self.files = [ filename for filename in sorted( next(os.walk( dirname ))[2], key=key_match ) ]
@@ -15,14 +15,14 @@ class DataReader:
         return [ map( l.replace( "\"", "" ) ) for l in line.split( "," ) ]
 
     @classmethod
-    def init_recipient( cls, mode : str = DataTypes.TENSILE ):
-        return DataTypes.get_recipient( mode )
+    def init_recipient( cls, mode : int = ExperimentTypes.TENSILE ):
+        return ExperimentTypes.get_recipient( mode )
     
     @classmethod
-    def read_results( cls, pFile, data, mode : str = DataTypes.TENSILE ):
+    def read_results( cls, pFile, data, mode : int = ExperimentTypes.TENSILE ):
         for line in pFile.readlines():
             datum = tuple( DataReader.format_line( line, float ) )
-            DataTypes.read_results( data, datum, mode )
+            ExperimentTypes.read_results( data, datum, mode )
 
     def setStensil( self, stensil : list[int] ):
         self.stensil = stensil

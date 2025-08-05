@@ -7,7 +7,7 @@ def find_max_less_than(data, threshold):
     return i
 
 class Limits:
-    def __init__(self, xlimit : float = None, ylimit : float = None):
+    def __init__(self, xlimit : float | None = None, ylimit : float | None = None):
         self.xlimit = xlimit
         self.ylimit = ylimit
 

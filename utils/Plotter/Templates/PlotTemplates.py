@@ -4,12 +4,15 @@ from utils.Plotter.Backend import plt
 from utils.Analyzer.IterUtil import IterUtil
 
 class PlotTemplates:
-    def Preamble( create_new_figure : bool = False ):
+    @classmethod
+    def Preamble( cls, create_new_figure : bool = False ):
         if create_new_figure: plt.figure()
+    @classmethod
     def Postamble(
+        cls,
         title : str = "Stress-strain curve",
         labels : list[ str ] = [r"Strain $(\varepsilon)$", r"Stress $(\sigma)$" ],
-        limits : Limits = Limits( [[],[]] )
+        limits : Limits = Limits()
     ):
         plt.title( title )
         plt.xlabel( labels[0] )
@@ -19,7 +22,9 @@ class PlotTemplates:
         
 
 
+    @classmethod
     def SimplePlot(
+        cls,
         title : str = "Stress-strain curve",
         labels : list[ str ] = [r"Strain $(\varepsilon)$", r"Stress $(\sigma)$" ],
         limits : Limits = Limits(),
@@ -36,7 +41,9 @@ class PlotTemplates:
 
         return plot
     
+    @classmethod
     def MeanStdPlot(
+        cls,
         title : str = "Stress-strain curve",
         labels : list[ str ] = [r"Strain $(\varepsilon)$", r"Stress $(\sigma)$" ],
         limits : Limits = Limits(),

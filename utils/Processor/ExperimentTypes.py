@@ -4,7 +4,7 @@ class ExperimentTypes:
     BENDING = 1
 
     @classmethod
-    def get_recipient( cls, mode : str ):
+    def get_recipient( cls, mode : int ):
         if mode == ExperimentTypes.TENSILE:
             return {
                 "engineer" : {
