@@ -1,8 +1,12 @@
 import os
 import re
 import subprocess
+import platform
+import sys
 import shutil
 import time
+
+OS_NAME = platform.system()
 
 def savefig( filename : str, tex : str, data : list[str] ):
     file_type = os.path.basename( filename ).split( "." )[-1].lower()
@@ -32,12 +36,20 @@ def compileCairo( filename : str, tex : str, data : list[str] ):
 
     save_as_pdf( tmppdf, tex, data )
 
-    p = subprocess.run( [
-        "pdftocairo",
-        f"-{file_ext}",
-        tmppdf,
-        f"{tmppdf}.{file_ext}"
-    ], shell=True, capture_output=True )
+    if OS_NAME == "Windows":
+        p = subprocess.run( [
+            "pdftocairo",
+            f"-{file_ext}",
+            "tmp.pdf",
+            f"tmp.{file_ext}"
+        ], shell=True, capture_output=True, cwd=tmpdir )
+    elif OS_NAME == "Linux":
+        p = subprocess.run( [
+            "pdftocairo",
+            f"-{file_ext}",
+            "tmp.pdf",
+            f"tmp.{file_ext}"
+        ], capture_output=True, cwd=tmpdir)
 
     if p.returncode != 0: raise Exception( p.stderr )
     if file_ext == "jpeg": file_ext = "jpg"
@@ -80,16 +92,24 @@ def save_as_pdf( filename : str, tex : str, data : list[str] ):
             with open( os.path.join( tmpdir, f"data_{i}.csv" ), "w" ) as pFile:
                 pFile.write( dataset )
         
-        p = subprocess.run( [
-            "lualatex",
-            "-enable-installer",
-            "-shell-escape",
-            "-interaction=nonstopmode",
-            "-output-format=pdf",
-            f"-output-directory={tmpdir}",
-            f"-aux-directory={tmpdir}",
-            f"{tmptex}.tex"
-        ], shell=True, capture_output=True )
+
+        if OS_NAME == "Windows":
+            p = subprocess.run( [
+                "lualatex",
+                "-enable-installer",
+                "-shell-escape",
+                "-interaction=nonstopmode",
+                "-output-format=pdf",
+                f"{tmptex}.tex"
+            ], shell=True, capture_output=True, cwd=tmpdir )
+        elif OS_NAME == "Linux":
+            p = subprocess.run( [
+                "lualatex",
+                "-shell-escape",
+                "-interaction=nonstopmode",
+                "-output-format=pdf",
+                f"{tmptex}.tex"
+            ], capture_output=True, cwd=tmpdir )
         
         if p.returncode != 0: raise Exception( p.stderr )
         
