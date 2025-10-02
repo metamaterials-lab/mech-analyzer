@@ -1,0 +1,73 @@
+@startuml
+
+abstract class Processor
+class InstronGeneric
+class ShimadzuGeneric
+
+Processor <|.. InstronGeneric
+Processor <|.. ShimadzuGeneric
+
+class MechData {
+    x, y : list[ float ]
+    append( x : float, y : float )
+}
+class ForceDispData
+interface StressStrainData{
+    processForce( y : inout list )
+    processDisp( x : inout list )
+}
+
+' Compression General Plastics ASTMD695
+' Tension General Plastics ASTMD638
+' 3 Point Bending ASTMD790
+
+class ASTMD695 {
+    ASTMD695( mode : ModeEnum, shape : Shape )
+}
+class ASTMD638 {
+    ASTMD638( mode : ModeEnum, shape : Shape )
+}
+class ASTMD790 {
+    ASTMD790( shape : Shape )
+}
+
+enum ModeEnum {
+    Eng
+    Real
+}
+abstract class Shape{
+    crossSectionArea()
+    axialLength()
+} 
+
+class Cylinder{
+    Cylinder( diameter : float, height : float )
+}
+class Box{
+    Box( width : float, depth : float, height : float )
+}
+class Beam{
+    Beam( height : float, depth : float, length : float )
+}
+
+
+MechData <|-- ForceDispData
+MechData <|-- StressStrainData
+StressStrainData <|.. ASTMD695
+StressStrainData <|.. ASTMD638
+StressStrainData <|.. ASTMD790
+
+ASTMD695 --> Shape
+ASTMD695 --> ModeEnum
+ASTMD638 --> Shape
+ASTMD638 --> ModeEnum
+ASTMD790 --> Shape
+
+Shape <|-- Cylinder
+Shape <|-- Box
+Shape <|-- Beam
+
+
+
+
+@enduml

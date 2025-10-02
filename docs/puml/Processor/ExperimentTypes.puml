@@ -1,0 +1,11 @@
+@startuml
+enum ExperimentTypesEnum{
+    TENSILE
+    BENDING
+}
+class ExperimentTypes{
+    {static} Dict get_recipient( mode : Enum )
+    {static} void read_results( data : out List[Dict], datum : (float, ... ), mode : Enum )
+}
+    
+@enduml

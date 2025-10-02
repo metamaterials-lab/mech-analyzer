@@ -1,0 +1,7 @@
+@startuml
+
+class util{
+    void parse_data( data : List[Dict], fn : Str, shape : Enum, exp_type : Enum )
+}
+
+@enduml

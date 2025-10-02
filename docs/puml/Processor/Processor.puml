@@ -1,6 +1,8 @@
 @startuml
 
 class Processor {
+    filename : Str
+    filename_dim : Str
     Processor( fn : Str, fn_dim : Str )
     {static} List[Dict] init_recipient( _ )
     {static} List[Str] format_line( line : Str, map : Callable[ Any, Str ] )

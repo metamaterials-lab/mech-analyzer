@@ -10,7 +10,7 @@ class CS_SHAPES {
     {static} ( float, float ) Area( shape : Enum, *dim : ( Float, ... ) )
 }
 
-class EXPERIMENTS {
+class Experiments {
     f : Callable
     {static} Callable COMPRESSION_STRESS_STRAIN( h : Float, a : Float )
     {static} Callable BENDING_STRESS_STRAIN( w : Float, d : Float, l : Float )

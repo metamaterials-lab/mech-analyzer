@@ -5,7 +5,26 @@
 !include Processor.puml
 !include DataReader.puml
 !include Experiments.puml
+!include ExperimentTypes.puml
+!include utils.puml
 
+() CALL
+record Results
+
+CALL --> util
+CALL --> Processor
+Results --> CALL
+DataReader --> Results
+Instron --|> Processor
+Shimadzu --|> Processor
+Experiments --> ExperimentTypesEnum
+Experiments --> CS_SHAPES
+Experiments --> SHAPE
+DataReader --> ExperimentTypesEnum
+DataReader --> ExperimentTypes
+util --> ExperimentTypesEnum
+util --> Experiments
+util --> SHAPE
 
 
 @enduml
