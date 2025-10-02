@@ -1,0 +1,13 @@
+@startuml
+
+class Shimadzu {
+    NUM  : Int
+    SKIP : Int
+    TOL  : Float
+    Shimadzu( fn : Str, fn_dim : Str )
+    {static} Dict init_recipient( pFile : File )
+    {static} void read( i : Int, data : List[Dict], t, f, d )
+    {abstract} read_results()
+}
+
+@enduml

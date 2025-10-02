@@ -1,0 +1,16 @@
+@startuml
+
+class Instron{
+    NUM  : Int
+    SKIP : Int
+    TOL  : Float
+    PRELOAD : Float
+    Instron( dn : Str, fn_dim : Str )
+    {static} List[Dict] init_recipient( pFiles : List[File] )
+    {static} void read( i : Int, data : List[Dict], t, f, d )
+    {abstract} read_results()
+    {abstract} enter()
+    {abstract} exit( *err )
+}
+
+@enduml

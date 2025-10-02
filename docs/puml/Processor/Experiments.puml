@@ -1,0 +1,21 @@
+@startuml
+
+enum SHAPE {
+    SQUARE
+    CIRCLE
+    RECTANGLE
+}
+
+class CS_SHAPES {
+    {static} ( float, float ) Area( shape : Enum, *dim : ( Float, ... ) )
+}
+
+class EXPERIMENTS {
+    f : Callable
+    {static} Callable COMPRESSION_STRESS_STRAIN( h : Float, a : Float )
+    {static} Callable BENDING_STRESS_STRAIN( w : Float, d : Float, l : Float )
+    EXPERIMENTS( exp : Int shape : Enum, *dim : ( Float, ... ) )
+    ( Float, ... ) StressStrain( t : Float, d : Float, f : Float )
+}
+
+@enduml

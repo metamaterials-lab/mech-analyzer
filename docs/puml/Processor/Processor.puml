@@ -1,0 +1,13 @@
+@startuml
+
+class Processor {
+    Processor( fn : Str, fn_dim : Str )
+    {static} List[Dict] init_recipient( _ )
+    {static} List[Str] format_line( line : Str, map : Callable[ Any, Str ] )
+    {static} read_dimensions( fn : Str, data : Out List[Dict] )
+    {abstract} enter()
+    {abstract} exit( *err )
+    {abstract} read_results()
+}
+
+@enduml

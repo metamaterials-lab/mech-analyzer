@@ -1,0 +1,21 @@
+@startuml
+
+class DataReader {
+    dirname : Str
+    files : List[ Str ]
+    mode : Enum
+    DataReader( dn : Str, mode : ExperimentEnum )
+
+    {static} List[Str] format_line( line : Str, map Callable )
+    {static} List[Dict] init_recipient( mode : Enum )
+    {static} read_results( pFile : File, data : out List[Dict], mode : Enum )
+
+    void setStensil( stensil : List[Int] ):
+
+    {abstract} enter()
+    {abstract} Iter[ Dict ] iter()
+    {abstract} exit( *err )
+}
+
+        
+@enduml
